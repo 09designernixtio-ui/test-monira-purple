@@ -74,8 +74,8 @@
   ::-webkit-scrollbar-track { background: transparent; }
   .ft-btn-primary { background: linear-gradient(135deg, #8B6FE8 0%, #4A2DB8 100%); color: #FFFFFF; padding: 0 16px; height: 38px; border-radius: 9px; font-weight: 500; font-size: 13.5px; display: inline-flex; align-items: center; gap: 6px; transition: background 120ms ease, opacity 120ms ease; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; }
   .ft-btn-primary:hover { background: #111111; }
-  .ft-btn-ghost { background: #EFEFEF; color: var(--ink-2); padding: 0 12px; height: 38px; border-radius: 9px; font-weight: 500; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; transition: all 120ms ease; border: none; cursor: pointer; font-family: inherit; }
-  .ft-btn-ghost:hover { background: #EFEFEF; color: var(--ink); }
+  .ft-btn-ghost { background: #FFFFFF; color: var(--ink-2); padding: 0 12px; height: 38px; border-radius: 9px; font-weight: 500; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; transition: all 120ms ease; border: 1px solid var(--line); cursor: pointer; font-family: inherit; }
+  .ft-btn-ghost:hover { background: #F5F5F5; color: var(--ink); }
   .ft-input { background: #EFEFEF; border: none; border-radius: 9px; padding: 9px 12px; font-size: 13.5px; width: 100%; color: var(--ink); outline: none; font-family: inherit; transition: box-shadow 120ms ease; }
   .ft-input.with-icon { padding-left: 36px; }
   .ft-input:focus { box-shadow: 0 0 0 2px var(--accent); }
@@ -98,13 +98,13 @@
   /* Shared border-only hover button — used by StatCard sub-link AND View all */
   .ft-border-btn {
     display: inline-flex; align-items: center; gap: 4px;
-    background: transparent; border: 1px solid var(--line-2); border-radius: 8px;
+    background: #F0F0F0; border: 1px solid var(--line-2); border-radius: 8px;
     cursor: pointer; font-size: 12px; font-weight: 500;
     color: var(--ink-2); padding: 5px 10px;
     font-family: inherit; transition: background 100ms ease, color 100ms ease;
     text-decoration: none;
   }
-  .ft-border-btn:hover { background: var(--line); color: var(--ink); }
+  .ft-border-btn:hover { background: #E0E0E0; color: var(--ink); }
 
   /* StatCard sub-label reuses the same border-btn look */
   .ft-stat-sub {
@@ -1247,7 +1247,7 @@ const ReceivableScreen = ({ onBack }) => {
 
       <div className="ft-card overflow-hidden">
         <div className="grid gap-3 px-5 py-3 text-[10.5px] uppercase tracking-[0.1em] font-medium border-b"
-          style={{color:'var(--ink-3)',borderColor:'#EBEBEB',background:'#EFEFEF',gridTemplateColumns:'2fr 1.2fr 0.8fr 1fr 1fr 0.8fr'}}>
+          style={{color:'var(--ink-3)',borderColor:'#EBEBEB',background:'#F0EDE6',gridTemplateColumns:'2fr 1.2fr 0.8fr 1fr 1fr 0.8fr'}}>
           <span>Client</span><span>Invoice</span>
           <span style={{cursor:'pointer',display:'flex',alignItems:'center',gap:3}} onClick={()=>setSortDir(d=>d==='desc'?'asc':'desc')}>
             Date {sortDir==='desc'?'↓':'↑'}
@@ -4178,7 +4178,7 @@ const BankSteps = ({ steps, current }) => (
 const BankCard = ({ name, sub, logo, accentColor, onClick }) => (
   <button onClick={onClick}
     className="flex-1 p-5 rounded-[14px] text-left transition-all ft-card ft-clickable"
-    style={{fontFamily:'inherit'}}
+    style={{fontFamily:'inherit', background:'#F5F5F5'}}
     onMouseEnter={e=>{e.currentTarget.style.borderColor=accentColor;}}
     onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--line)';}}>
     <div className="text-[28px] mb-2">{logo}</div>
@@ -4221,11 +4221,15 @@ const ModalBoA = ({ onBack, onSuccess, onClose }) => {
         <BankSteps steps={['Choose bank','Authorize','Done']} current={step===2?2:step===1?1:0}/>
         {step===0&&(
           <div className="ft-fade">
-            <div className="text-[32px] mb-3">🏦</div>
-            <div className="ft-serif text-[20px] font-medium mb-3" style={{color:'var(--ink)'}}>Bank of America</div>
-            <p className="text-[13px] mb-5" style={{color:'var(--ink-2)',lineHeight:1.6}}>
-              You'll be redirected to <strong>Plaid</strong> — a trusted service used by thousands of fintech apps. It connects your bank without sharing credentials with us.
-            </p>
+            <div className="p-5 rounded-xl mb-5 flex items-start gap-4" style={{background:'#F5F5F5'}}>
+              <div className="text-[36px]">🏦</div>
+              <div>
+                <div className="ft-serif text-[18px] font-medium mb-1" style={{color:'var(--ink)'}}>Bank of America</div>
+                <p className="text-[13px] m-0" style={{color:'var(--ink-2)',lineHeight:1.5}}>
+                  You'll be redirected to <strong>Plaid</strong> — a trusted service used by thousands of fintech apps.
+                </p>
+              </div>
+            </div>
             <div className="space-y-2.5 mb-6">
               {['Read-only access to transactions','Your login stays with Plaid — we never see it','Disconnect anytime from Settings'].map((t,i)=>(
                 <div key={i} className="flex items-center gap-3 text-[13px]" style={{color:'var(--ink-2)'}}>
@@ -4282,8 +4286,13 @@ const ModalMono = ({ onBack, onSuccess, onClose }) => {
         <BankSteps steps={['Choose bank','Enter token','Done']} current={step===2?2:0}/>
         {(step===0||step===1)&&(
           <div className="ft-fade">
-            <div className="text-[32px] mb-3">🐱</div>
-            <div className="ft-serif text-[20px] font-medium mb-4" style={{color:'var(--ink)'}}>Connect Monobank</div>
+            <div className="p-5 rounded-xl mb-5 flex items-start gap-4" style={{background:'#F5F5F5'}}>
+              <div className="text-[36px]">🐱</div>
+              <div>
+                <div className="ft-serif text-[18px] font-medium mb-1" style={{color:'var(--ink)'}}>Connect Monobank</div>
+                <p className="text-[13px] m-0" style={{color:'var(--ink-2)',lineHeight:1.5}}>Via API token — no redirect needed.</p>
+              </div>
+            </div>
             <div className="rounded-xl p-4 mb-5 space-y-2.5" style={{background:'#F5F5F5',border:'none'}}>
               {[['1','Open Monobank app on your phone'],['2','Go to Settings → Other → API'],['3','Tap "Get token" and copy it'],['4','Paste it in the field below']].map(([n,t])=>(
                 <div key={n} className="flex gap-3 items-start">
@@ -4559,12 +4568,12 @@ const MappingSelect = ({ value, onChange, projects }) => {
           left: btnRef.current.getBoundingClientRect().left,
           width: btnRef.current.getBoundingClientRect().width,
           zIndex:9999,
-          background:'#EFEFEF', border:'none',
+          background:'#FFFFFF', border:'1px solid var(--line)',
           borderRadius:10, boxShadow:'0 8px 24px rgba(28,24,20,0.14)',
           display:'flex', flexDirection:'column', maxHeight:220,
         }}>
           <div style={{overflowY:'auto', flex:1}}>
-            <div style={{padding:'5px 10px 3px', fontSize:10, textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--ink-3)', fontWeight:500, position:'sticky', top:0, background:'var(--surface)', borderBottom:'1px solid var(--line)'}}>
+            <div style={{padding:'5px 10px 3px', fontSize:10, textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--ink-3)', fontWeight:500, position:'sticky', top:0, background:'#FFFFFF', borderBottom:'1px solid var(--line)'}}>
               Existing projects
             </div>
             {activeProjects.map(p => {
@@ -4608,6 +4617,86 @@ const MappingSelect = ({ value, onChange, projects }) => {
     </div>
   );
 };
+
+
+const CustomSelect = ({ value, onChange, options, width }) => {
+  const [open, setOpen] = React.useState(false);
+  const [dropUp, setDropUp] = React.useState(false);
+  const ref = React.useRef();
+  const btnRef = React.useRef();
+
+  React.useEffect(() => {
+    if (!open) return;
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  const handleOpen = () => {
+    if (btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      setDropUp(window.innerHeight - rect.bottom < 200);
+    }
+    setOpen(o => !o);
+  };
+
+  const selected = options.find(o => o.value === value);
+  const select = (v) => { onChange(v); setOpen(false); };
+
+  return (
+    <div ref={ref} style={{position:'relative', width: width || '100%'}}>
+      <button
+        ref={btnRef}
+        type="button"
+        onClick={handleOpen}
+        style={{
+          width:'100%', height:36, display:'flex', alignItems:'center', justifyContent:'space-between',
+          padding:'0 10px 0 12px', borderRadius:9, fontSize:13.5, cursor:'pointer', gap:6,
+          background:'#F5F5F5', border:'none', fontFamily:'inherit',
+          color:'var(--ink-2)',
+        }}>
+        <span style={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', flex:1, textAlign:'left'}}>
+          {selected ? selected.label : '—'}
+        </span>
+        <I.ChevronDown size={13} style={{flexShrink:0, color:'var(--ink-3)', transform: open ? 'rotate(180deg)' : 'none', transition:'transform 150ms'}}/>
+      </button>
+
+      {open && btnRef.current && (() => {
+        const rect = btnRef.current.getBoundingClientRect();
+        return (
+          <div style={{
+            position:'fixed',
+            ...(dropUp ? { bottom: window.innerHeight - rect.top + 4 } : { top: rect.bottom + 4 }),
+            left: rect.left,
+            width: rect.width,
+            zIndex:9999,
+            background:'#FFFFFF', border:'1px solid var(--line)',
+            borderRadius:10, boxShadow:'0 8px 24px rgba(28,24,20,0.14)',
+            overflow:'hidden',
+          }}>
+            {options.map(o => (
+              <button key={o.value} type="button"
+                onMouseDown={e=>{ e.preventDefault(); select(o.value); }}
+                style={{
+                  width:'100%', padding:'8px 12px', fontSize:13, textAlign:'left',
+                  display:'flex', alignItems:'center', justifyContent:'space-between',
+                  background: value === o.value ? 'var(--ink)' : 'transparent',
+                  color: value === o.value ? '#ffffff' : 'var(--ink-2)',
+                  border:'none', cursor:'pointer', fontFamily:'inherit',
+                }}>
+                {o.label}
+                {value === o.value && <I.Check2 size={12} style={{flexShrink:0}}/>}
+              </button>
+            ))}
+          </div>
+        );
+      })()}
+    </div>
+  );
+};
+
 
 const ClockifyConfigModal = ({ onClose, onSaved }) => {
   const [step, setStep] = React.useState('config'); // config | syncing | done
@@ -4710,14 +4799,14 @@ const ClockifyConfigModal = ({ onClose, onSaved }) => {
               {/* General */}
               <section>
                 <div className="text-[11px] uppercase tracking-[0.12em] font-medium mb-3" style={{color:'var(--ink-3)'}}>General</div>
-                <div className="ft-card p-4 space-y-0">
-                  <div className="pb-3.5 border-b" style={{borderColor:'#EBEBEB'}}>
+                <div className="ft-card p-4 space-y-0" style={{border:'1.5px solid var(--line)', borderRadius:12}}>
+                  <div className="pb-3.5 border-b" style={{borderColor:'var(--line)'}}>
                     <label className="text-[11px] uppercase tracking-[0.1em] font-medium block mb-2" style={{color:'var(--ink-3)'}}>Workspace</label>
-                    <select className="ft-select w-full" value={workspace} onChange={e=>setWorkspace(e.target.value)}>
-                      <option value="main">Main Workspace</option>
-                      <option value="agency">Design Agency</option>
-                      <option value="freelance">Freelance Projects</option>
-                    </select>
+                    <CustomSelect value={workspace} onChange={setWorkspace} options={[
+                      {value:'main', label:'Main Workspace'},
+                      {value:'agency', label:'Design Agency'},
+                      {value:'freelance', label:'Freelance Projects'},
+                    ]}/>
                   </div>
                   <Toggle value={syncTime} onChange={setSyncTime}
                     label="Sync Time Entries"
@@ -4752,13 +4841,12 @@ const ClockifyConfigModal = ({ onClose, onSaved }) => {
                         placeholder="Search Clockify projects…"
                         value={mapSearch} onChange={e=>setMapSearch(e.target.value)}/>
                     </div>
-                    <select className="ft-select" style={{height:34,fontSize:12.5,minWidth:148}}
-                      value={mapFilter} onChange={e=>setMapFilter(e.target.value)}>
-                      <option value="all">All projects</option>
-                      <option value="unmatched">Needs review</option>
-                      <option value="matched">Auto-matched</option>
-                      <option value="ignored">Ignored</option>
-                    </select>
+                    <CustomSelect value={mapFilter} onChange={setMapFilter} width={160} options={[
+                      {value:'all', label:'All projects'},
+                      {value:'unmatched', label:'Needs review'},
+                      {value:'matched', label:'Auto-matched'},
+                      {value:'ignored', label:'Ignored'},
+                    ]}/>
                   </div>
 
                   {/* Table */}
